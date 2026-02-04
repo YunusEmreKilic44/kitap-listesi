@@ -63,6 +63,19 @@ app.put("/books/:id", (req, res) => {
   }
 });
 
+app.delete("/books/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  let books = readData();
+  const findBook = books.find((book) => book.id === id);
+  if (findBook) {
+    books = books.filter((book) => book.id !== id);
+    writeData(books);
+    res.status(200).json({ message: "Kitap silindi" });
+  } else {
+    res.status(400).json({ message: "Kitap bulunamadi!" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
